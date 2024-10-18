@@ -39,7 +39,7 @@ public class UserControlador {
             return new ResponseEntity<>(savedUser, HttpStatus.CREATED); // Return the saved user with a 201 status
         } catch (Exception e) {
             logger.error("Error al crear el usuario: ", e);
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 if there's an error
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 error
         }
     }
 }
