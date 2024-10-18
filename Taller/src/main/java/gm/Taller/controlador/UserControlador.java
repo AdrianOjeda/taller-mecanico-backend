@@ -7,10 +7,9 @@ import gm.Taller.servicio.UserServicio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +30,16 @@ public class UserControlador {
 
         return users;
 
+    }
+    @PostMapping("/users")  // New endpoint for creating users
+    public ResponseEntity<Users> createUser(@RequestBody Users newUser) {
+        try {
+            Users savedUser = UserServicio.saveUser(newUser); // Save the user using the service layer
+            logger.info("Usuario creado: " + savedUser);
+            return new ResponseEntity<>(savedUser, HttpStatus.CREATED); // Return the saved user with a 201 status
+        } catch (Exception e) {
+            logger.error("Error al crear el usuario: ", e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 if there's an error
+        }
     }
 }
