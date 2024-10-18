@@ -60,5 +60,17 @@ public class UserControlador {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 error
         }
     }
+    @DeleteMapping("/users/delete/{userId}")
+    public ResponseEntity<Users> deleteUser(@PathVariable Integer userId){
+        try{
+            Users user = UserServicio.searchUserById(userId);
+            UserServicio.deleteUser(user);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        }catch(Exception e){
+            logger.error("Error al eliminar el usuario con ID: " + userId, e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 error
+        }
+    }
 
 }
