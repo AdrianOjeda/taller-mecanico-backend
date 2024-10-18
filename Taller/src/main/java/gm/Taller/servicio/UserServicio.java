@@ -39,4 +39,22 @@ public class UserServicio implements IUserServicio{
         userRepositorio.delete(user);
 
     }
+
+    @Override
+    public Users updateUser(Integer idUser, Users updatedUser) {
+        Users existingUser = userRepositorio.findById(idUser).orElse(null);
+        if (existingUser != null) {
+            // Update the fields of the existing user
+            existingUser.setUsername(updatedUser.getUsername());
+            existingUser.setPassword(updatedUser.getPassword());
+            existingUser.setName(updatedUser.getName());
+            existingUser.setLastName(updatedUser.getLastName());
+            existingUser.setCellPhone(updatedUser.getCellPhone());
+            existingUser.setAddress(updatedUser.getAddress());
+            existingUser.setRole(updatedUser.getRole());
+
+            return userRepositorio.save(existingUser); // Save and return the updated user
+        }
+        return null;
+    }
 }

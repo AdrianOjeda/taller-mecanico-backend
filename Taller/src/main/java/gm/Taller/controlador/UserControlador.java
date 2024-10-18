@@ -42,4 +42,23 @@ public class UserControlador {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 error
         }
     }
+
+    @PutMapping("/users/editar/{editingUserId}") // Endpoint for editing users
+    public ResponseEntity<Users> editUser(@PathVariable Integer editingUserId, @RequestBody Users updatedUser) {
+        try {
+            Users savedUser = UserServicio.updateUser(editingUserId, updatedUser);
+
+            if (savedUser != null) {
+                logger.info("Usuario editado: " + savedUser);
+                return new ResponseEntity<>(savedUser, HttpStatus.OK); // Return the updated user with a 200 status
+            } else {
+                logger.warn("Usuario no encontrado con ID: " + editingUserId);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Return 404 if user not found
+            }
+        } catch (Exception e) {
+            logger.error("Error al editar el usuario con ID: " + editingUserId, e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 error
+        }
+    }
+
 }

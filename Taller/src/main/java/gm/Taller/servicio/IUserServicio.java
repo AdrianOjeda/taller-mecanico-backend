@@ -9,7 +9,7 @@ public interface IUserServicio {
     public List<Users> listUsers();
     public Users searchUserById(Integer idUser);
     public Users saveUser(Users user);
-
+    public Users updateUser(Integer idUser, Users updatedUser);
 
     public void deleteUser(Users user);
 }
