@@ -44,4 +44,41 @@ public class PiezaControlador {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 error
         }
     }
+
+    @PutMapping("/piezas/{piezaId}")
+    public ResponseEntity<Piezas> updatePieza(@PathVariable Integer piezaId, @RequestBody Piezas updatedPieza) {
+        try {
+            Piezas existingPieza = PiezaServicio.searchPiezaById(piezaId); // Assuming a searchPiezaById method exists
+            if (existingPieza != null) {
+                updatedPieza.setIdPieza(piezaId); // Ensure the ID remains the same
+                Piezas savedPieza = PiezaServicio.savePieza(updatedPieza); // Save the updated pieza
+                logger.info("Pieza updated: " + savedPieza);
+                return new ResponseEntity<>(savedPieza, HttpStatus.OK); // Return the updated pieza with status 200
+            } else {
+                logger.warn("Pieza not found with ID: " + piezaId);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Return 404 if pieza not found
+            }
+        } catch (Exception e) {
+            logger.error("Error updating pieza with ID: " + piezaId, e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 error if something goes wrong
+        }
+    }
+
+    @DeleteMapping("/piezas/{piezaId}")
+    public ResponseEntity<Void> deletePieza(@PathVariable Integer piezaId) {
+        try {
+            Piezas pieza = PiezaServicio.searchPiezaById(piezaId);
+            if (pieza != null) {
+                PiezaServicio.deletePieza(pieza);
+                logger.info("Pieza deleted with ID: " + piezaId);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Return 204 No Content if successfully deleted
+            } else {
+                logger.warn("Pieza not found with ID: " + piezaId);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Return 404 if pieza not found
+            }
+        } catch (Exception e) {
+            logger.error("Error deleting pieza with ID: " + piezaId, e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 error if something goes wrong
+        }
+    }
 }
