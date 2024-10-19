@@ -10,6 +10,6 @@ public interface IUserServicio {
     public Users searchUserById(Integer idUser);
     public Users saveUser(Users user);
     public Users updateUser(Integer idUser, Users updatedUser);
-
+    public Users login(String username, String password);
     public void deleteUser(Users user);
 }

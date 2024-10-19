@@ -31,6 +31,20 @@ public class UserControlador {
         return users;
 
     }
+
+    @PostMapping("/users/login")
+    public ResponseEntity<?> loginUser(@RequestBody Users userInfo) {
+        Users user = UserServicio.login(userInfo.getUsername(), userInfo.getPassword());
+        logger.info(String.valueOf(userInfo));
+        logger.info("Received username: " + userInfo.getUsername());
+        logger.info("Received password: " + userInfo.getPassword());
+        logger.info("Hola "+user);
+        if (user != null) {
+            return ResponseEntity.ok(user); // Successful login
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales invalidas");
+        }
+    }
     @PostMapping("/users")  // New endpoint for creating users
     public ResponseEntity<Users> createUser(@RequestBody Users newUser) {
         try {

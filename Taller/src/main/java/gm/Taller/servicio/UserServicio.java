@@ -57,4 +57,8 @@ public class UserServicio implements IUserServicio{
         }
         return null;
     }
+    @Override
+    public Users login(String username, String password) {
+        return userRepositorio.findByUsernameAndPassword(username, password);
+    }
 }
