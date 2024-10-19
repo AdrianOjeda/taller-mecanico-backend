@@ -23,7 +23,7 @@ public class UserControlador {
     @Autowired
     private IUserServicio UserServicio;
 
-    @GetMapping("/users")
+    @GetMapping("/users") //This endpoint retrieves every user in the db and sends them to the FrontEnd
     public List<Users> getUsers(){
         var users = UserServicio.listUsers();
         users.forEach((user -> logger.info(user.toString())));
