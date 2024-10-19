@@ -12,4 +12,6 @@ public interface IUserServicio {
     public Users updateUser(Integer idUser, Users updatedUser);
     public Users login(String username, String password);
     public void deleteUser(Users user);
+
+    public Users findByUsername(String username);
 }

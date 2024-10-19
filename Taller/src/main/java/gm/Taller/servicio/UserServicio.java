@@ -61,4 +61,9 @@ public class UserServicio implements IUserServicio{
     public Users login(String username, String password) {
         return userRepositorio.findByUsernameAndPassword(username, password);
     }
+
+    @Override
+    public Users findByUsername(String username) {
+        return userRepositorio.findByUsername(username);
+    }
 }

@@ -45,15 +45,23 @@ public class UserControlador {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales invalidas");
         }
     }
-    @PostMapping("/users")  // New endpoint for creating users
-    public ResponseEntity<Users> createUser(@RequestBody Users newUser) {
+    @PostMapping("/users")
+    public ResponseEntity<?> createUser(@RequestBody Users newUser) {
         try {
-            Users savedUser = UserServicio.saveUser(newUser); // Save the user using the service layer
+
+            Users existingUser = UserServicio.findByUsername(newUser.getUsername()); //Check if user exists
+            if (existingUser != null) {
+                return new ResponseEntity<>("El nombre de usuario ya existe", HttpStatus.CONFLICT);
+                //return 409 Conflict
+            }
+
+
+            Users savedUser = UserServicio.saveUser(newUser);
             logger.info("Usuario creado: " + savedUser);
-            return new ResponseEntity<>(savedUser, HttpStatus.CREATED); // Return the saved user with a 201 status
+            return new ResponseEntity<>(savedUser, HttpStatus.CREATED); // 201 Created
         } catch (Exception e) {
             logger.error("Error al crear el usuario: ", e);
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 error
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // 500 Internal Server Error
         }
     }
 
