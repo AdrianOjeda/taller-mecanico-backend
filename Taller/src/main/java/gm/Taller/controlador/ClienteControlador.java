@@ -2,6 +2,7 @@ package gm.Taller.controlador;
 
 
 import gm.Taller.modelo.Clientes;
+import gm.Taller.modelo.Users;
 import gm.Taller.servicio.IClienteServicio;
 import gm.Taller.servicio.IPiezaServicio;
 import org.slf4j.Logger;
@@ -45,6 +46,24 @@ public class ClienteControlador {
         // Save the new client
         Clientes savedCliente = clienteServicio.saveCliente(newCliente);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCliente); // 201 Created
+    }
+
+    @PutMapping("/clientes/{idCliente}")
+    public ResponseEntity<Clientes> updateCliente(@RequestBody Clientes updatedClient, @PathVariable Integer idCliente){
+        Clientes savedCliente = clienteServicio.updateCliente(idCliente, updatedClient);
+        try {
+            if (savedCliente != null) {
+                logger.info("Cliente editado: " + savedCliente);
+                return new ResponseEntity<>(savedCliente, HttpStatus.OK); // Return the updated user with a 200 status
+            } else {
+                logger.warn("Cliente no encontrado con ID: " + idCliente);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Return 404 if user not found
+            }
+        } catch (Exception e) {
+            logger.error("Error al editar el cliente con ID: " + idCliente, e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 error
+        }
+
     }
 
 }
