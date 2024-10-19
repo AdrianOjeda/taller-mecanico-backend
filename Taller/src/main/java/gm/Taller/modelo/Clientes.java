@@ -25,8 +25,16 @@ public class Clientes {
     String lastName;
     String address;
     String phone;
+    String emailCliente;
 
+    public String getEmailCliente(){
+        return emailCliente;
+    }
 
+    public void setEmailCliente(String emailCliente){
+        this.emailCliente = emailCliente;
+
+    }
     public Integer getIdCliente() {
         return idCliente;
     }

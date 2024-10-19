@@ -11,6 +11,6 @@ public interface IClienteServicio {
     public Clientes searchClienteById(Integer idCliente);
     public Clientes saveCliente(Clientes cliente);
     public Clientes updateCliente(Integer idCliente, Clientes updatedCliente);
-
+    public boolean emailExists(String email);
     public void deleteCliente(Clientes cliente);
 }

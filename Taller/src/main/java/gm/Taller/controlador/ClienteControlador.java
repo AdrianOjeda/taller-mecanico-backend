@@ -7,6 +7,7 @@ import gm.Taller.servicio.IPiezaServicio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +34,17 @@ public class ClienteControlador {
     }
 
     @PostMapping("/clientes")
-    public ResponseEntity<Clientes> createCliente(@RequestBody Clientes newCliente){
+    public ResponseEntity<?> createCliente(@RequestBody Clientes newCliente) {
+        logger.info(newCliente.toString());
 
-        return null;
+        // Check if the emailCliente already exists
+        if (clienteServicio.emailExists(newCliente.getEmailCliente())) {
+            return new ResponseEntity<>("El correo del cliente ya existe", HttpStatus.CONFLICT); // 409 Conflict
+        }
+
+        // Save the new client
+        Clientes savedCliente = clienteServicio.saveCliente(newCliente);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedCliente); // 201 Created
     }
 
 }

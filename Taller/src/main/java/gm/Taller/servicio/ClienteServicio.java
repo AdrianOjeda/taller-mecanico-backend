@@ -49,4 +49,9 @@ public class ClienteServicio implements IClienteServicio{
     public void deleteCliente(Clientes cliente) {
         clienteRepositorio.delete(cliente);
     }
+
+    public boolean emailExists(String email) {
+
+        return clienteRepositorio.findByEmailCliente(email) != null;
+    }
 }
