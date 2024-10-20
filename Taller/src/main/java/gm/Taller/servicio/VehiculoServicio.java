@@ -20,9 +20,8 @@ public class VehiculoServicio implements IVehiculoServicio {
     }
 
     @Override
-    public Vehiculos searchVehiculoById(Integer idVehiculo) {
-        Optional<Vehiculos> vehiculo = vehiculoRepositorio.findById(idVehiculo);
-        return vehiculo.orElse(null); // Return the vehicle if found, otherwise null
+    public Vehiculos searchVehiculoById(Integer id) {
+        return vehiculoRepositorio.findById(id).orElse(null); // Return the vehicle or null if not found
     }
 
     @Override
@@ -38,14 +37,22 @@ public class VehiculoServicio implements IVehiculoServicio {
     }
 
     @Override
-    public Vehiculos updateVehiculo(Integer idVehiculo, Vehiculos updatedVehiculo) {
-        if (vehiculoRepositorio.existsById(idVehiculo)) {
-            updatedVehiculo.setIdVehiculo(idVehiculo);
-            return vehiculoRepositorio.save(updatedVehiculo); // Save the updated vehicle
-        }
-        return null;
-    }
+    public Vehiculos updateVehiculo(Integer id, Vehiculos updatedVehiculo) {
+        // Fetch the existing vehicle
+        Optional<Vehiculos> existingVehiculoOpt = vehiculoRepositorio.findById(id);
+        if (existingVehiculoOpt.isPresent()) {
 
+            Vehiculos existingVehiculo = existingVehiculoOpt.get();
+            existingVehiculo.setMarcaVehiculo(updatedVehiculo.getMarcaVehiculo());
+            existingVehiculo.setModeloVehiculo(updatedVehiculo.getModeloVehiculo());
+            existingVehiculo.setMatriculaVehiculo(updatedVehiculo.getMatriculaVehiculo());
+            existingVehiculo.setFechaIngreso(updatedVehiculo.getFechaIngreso());
+            existingVehiculo.setColorVehiculo(updatedVehiculo.getColorVehiculo());
+            existingVehiculo.setNotasVehiculo(updatedVehiculo.getNotasVehiculo());
+            return vehiculoRepositorio.save(existingVehiculo); // Save and return the updated vehicle
+        }
+        return null; // Vehicle not found
+    }
     @Override
     public void deleteVehiculo(Vehiculos vehiculo) {
         vehiculoRepositorio.delete(vehiculo); // Delete the vehicle from the database

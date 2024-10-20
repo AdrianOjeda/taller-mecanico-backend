@@ -44,5 +44,41 @@ public class VehiculoControlador {
         // If the save operation was successful, return the saved entity
         return ResponseEntity.status(HttpStatus.CREATED).body(savedVehiculo);
     }
+    @PutMapping("/vehiculos/{idVehiculo}")
+    public ResponseEntity<Vehiculos> updateVehiculo(@PathVariable Integer idVehiculo, @RequestBody Vehiculos updatedVehiculo) {
+        try {
+
+            Vehiculos savedVehiculo = VehiculoServicio.updateVehiculo(idVehiculo, updatedVehiculo);
+
+            if (savedVehiculo != null) {
+                logger.info("Vehiculo editado: " + savedVehiculo);
+                return new ResponseEntity<>(savedVehiculo, HttpStatus.OK); // Return the updated vehicle with a 200 status
+            } else {
+                logger.warn("Vehiculo no encontrado con ID: " + idVehiculo);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Return 404 if vehicle not found
+            }
+        } catch (Exception e) {
+            logger.error("Error al editar el vehiculo con ID: " + idVehiculo, e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 error
+        }
+    }
+
+    @DeleteMapping("/vehiculos/{idVehiculo}")
+    public ResponseEntity<Void> deleteVehiculo(@PathVariable Integer idVehiculo) {
+        try {
+
+            Vehiculos vehiculoToDelete = VehiculoServicio.searchVehiculoById(idVehiculo);
+            if (vehiculoToDelete != null) {
+                VehiculoServicio.deleteVehiculo(vehiculoToDelete); // Delete the vehicle
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Return 204 No Content
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Return 404 if vehicle not found
+            }
+        } catch (Exception e) {
+            logger.error("Error al eliminar el vehiculo con ID: " + idVehiculo, e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 error
+        }
+    }
+
 
 }
