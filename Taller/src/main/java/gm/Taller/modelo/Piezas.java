@@ -1,14 +1,13 @@
 package gm.Taller.modelo;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -24,9 +23,13 @@ public class Piezas {
     String piezaDescripcion;
     Integer stock;
 
+    @ManyToMany(mappedBy = "piezas", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Reparaciones> reparaciones;
+
     public Integer getIdPieza(){
         return idPieza;
     }
+
     public String getPiezaName(){
         return piezaName;
     }
