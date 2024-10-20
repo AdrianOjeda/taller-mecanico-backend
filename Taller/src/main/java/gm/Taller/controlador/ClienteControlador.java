@@ -66,4 +66,19 @@ public class ClienteControlador {
 
     }
 
+    @DeleteMapping("/clientes/{idCliente}")
+    public ResponseEntity<Void> deleteCliente(@PathVariable Integer idCliente){
+        try{
+            Clientes clienteToDelete = clienteServicio.searchClienteById(idCliente); //Search for client
+            if(clienteToDelete != null){ //Take course of action weather it exists or doesn't
+                clienteServicio.deleteCliente(clienteToDelete);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }else{
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
