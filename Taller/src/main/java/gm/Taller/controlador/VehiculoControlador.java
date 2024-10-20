@@ -79,6 +79,20 @@ public class VehiculoControlador {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 error
         }
     }
+    @GetMapping("/vehiculos/searchByMatricula/{searchMatricula}")
+    public ResponseEntity<?> searchByMatricula(@PathVariable String searchMatricula) {
+        try {
+            Vehiculos vehiculo = VehiculoServicio.searchVehiculoByMatricula(searchMatricula);
+
+            if (vehiculo != null) {
+                return new ResponseEntity<>(vehiculo, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Vehiculo not found", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 }

@@ -55,4 +55,12 @@ public class Piezas {
     public void setStock(Integer stock) {
         this.stock = stock;
     }
+
+    public List<Reparaciones> getReparaciones() {
+        return reparaciones;
+    }
+
+    public void setReparaciones(List<Reparaciones> reparaciones) {
+        this.reparaciones = reparaciones;
+    }
 }

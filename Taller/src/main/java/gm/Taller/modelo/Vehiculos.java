@@ -35,8 +35,6 @@ public class Vehiculos {
     @JoinColumn(name = "id_cliente", nullable = false)  // Define the foreign key column
     private Clientes cliente;
 
-    @OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Reparaciones> reparaciones;
 
     public Integer getIdVehiculo() {
         return idVehiculo;
@@ -102,12 +100,6 @@ public class Vehiculos {
         this.cliente = cliente;
     }
 
-    public List<Reparaciones> getReparaciones() {
-        return reparaciones;
-    }
 
-    public void setReparaciones(List<Reparaciones> reparaciones) {
-        this.reparaciones = reparaciones;
-    }
 
 }

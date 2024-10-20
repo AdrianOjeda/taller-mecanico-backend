@@ -11,6 +11,6 @@ public interface IVehiculoServicio {
     public Vehiculos searchVehiculoById(Integer idVehiculo);
     public Vehiculos saveVehiculo(Vehiculos vehiculo);
     public Vehiculos updateVehiculo(Integer idVehiculo, Vehiculos updatedVehiculo);
-
+    public Vehiculos searchVehiculoByMatricula(String matriculaVehiculo);
     public void deleteVehiculo(Vehiculos vehiculo);
 }

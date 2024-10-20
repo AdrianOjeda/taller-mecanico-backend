@@ -57,4 +57,10 @@ public class VehiculoServicio implements IVehiculoServicio {
     public void deleteVehiculo(Vehiculos vehiculo) {
         vehiculoRepositorio.delete(vehiculo); // Delete the vehicle from the database
     }
+
+    @Override
+    public Vehiculos searchVehiculoByMatricula(String matriculaVehiculo) {
+        return vehiculoRepositorio.findByMatriculaVehiculo(matriculaVehiculo)
+                .orElse(null);  // Return null if not found
+    }
 }
