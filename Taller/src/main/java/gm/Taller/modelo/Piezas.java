@@ -1,6 +1,7 @@
 package gm.Taller.modelo;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class Piezas {
     Integer stock;
 
     @ManyToMany(mappedBy = "piezas", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonIgnore
     private List<Reparaciones> reparaciones = new ArrayList<>();
 
     public Integer getIdPieza(){

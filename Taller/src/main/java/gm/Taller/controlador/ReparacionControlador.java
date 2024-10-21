@@ -1,5 +1,6 @@
 package gm.Taller.controlador;
 
+import gm.Taller.modelo.Clientes;
 import gm.Taller.modelo.Piezas;
 import gm.Taller.modelo.Reparaciones;
 import gm.Taller.modelo.Vehiculos;
@@ -29,6 +30,23 @@ public class ReparacionControlador {
     @Autowired
     private IPiezaServicio piezaServicio;
 
+
+    @GetMapping("/reparaciones")
+    public ResponseEntity<List<Reparaciones>> getAllReparaciones() {
+        List<Reparaciones> reparacionesList = reparacionServicio.listReparaciones(); // Fetch all reparaciones
+
+        for (Reparaciones reparacion : reparacionesList) {
+            Vehiculos vehiculo = reparacion.getVehiculo();
+            if (vehiculo != null) {
+                // Optionally, you could also initialize or fetch the Cliente entity here if needed.
+                // This assumes the Cliente entity is directly accessible from Vehiculos.
+                Clientes cliente = vehiculo.getCliente(); // Fetch associated client
+                reparacion.setVehiculo(vehiculo); // Make sure vehiculo is properly set (already should be)
+            }
+        }
+
+        return new ResponseEntity<>(reparacionesList, HttpStatus.OK); // Return the list of reparaciones
+    }
     @PostMapping("/reparaciones")
     public ResponseEntity<Reparaciones> createReparacion(@RequestBody Reparaciones reparacion) {
         // Log incoming reparacion
