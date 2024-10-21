@@ -1,5 +1,6 @@
 package gm.Taller.modelo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,20 +26,21 @@ public class Reparaciones {
     private String fechaInicio;
 
 
+
     @ManyToOne
 
     @JoinColumn(name = "id_vehiculo", nullable = false)  // Define the foreign key column
     private Vehiculos vehiculo;
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "reparacion_piezas",
             joinColumns = @JoinColumn(name = "id_reparacion"),
             inverseJoinColumns = @JoinColumn(name = "id_pieza")
     )
+    @JsonProperty("piezasUtilizadas")
     private List<Piezas> piezas = new ArrayList<>();
-
 
 
 
@@ -83,9 +85,6 @@ public class Reparaciones {
     public void setFechaInicio(String fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
-
-
-
     public List<Piezas> getPiezas() {
         return piezas;
     }
@@ -93,6 +92,4 @@ public class Reparaciones {
     public void setPiezas(List<Piezas> piezas) {
         this.piezas = piezas;
     }
-
-
 }

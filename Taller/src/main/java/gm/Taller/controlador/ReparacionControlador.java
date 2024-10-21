@@ -1,5 +1,6 @@
 package gm.Taller.controlador;
 
+import gm.Taller.modelo.Piezas;
 import gm.Taller.modelo.Reparaciones;
 import gm.Taller.modelo.Vehiculos;
 import gm.Taller.servicio.IReparacionServicio;
@@ -9,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 //http://localhost:8081/taller-app/
@@ -25,25 +29,35 @@ public class ReparacionControlador {
     @Autowired
     private IPiezaServicio piezaServicio;
 
-
     @PostMapping("/reparaciones")
     public ResponseEntity<Reparaciones> createReparacion(@RequestBody Reparaciones reparacion) {
-        // Check if the associated vehicle exists
+        // Log incoming reparacion
+        System.out.println("Reparacion received: " + reparacion);
+
+        // Fetch the associated vehicle
         Vehiculos vehiculo = vehiculoServicio.searchVehiculoById(reparacion.getVehiculo().getIdVehiculo());
         if (vehiculo == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Vehicle not found
         }
 
+        // Fetch full piezas details from the database
+        List<Piezas> piezasUtilizadas = new ArrayList<>();
+        for (Piezas pieza : reparacion.getPiezas()) {
+            Piezas piezaInDb = piezaServicio.searchPiezaById(pieza.getIdPieza());
+            if (piezaInDb == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Pieza not found
+            }
+            piezaInDb.setStock(pieza.getStock()); // Set the stock used in this repair
+            piezasUtilizadas.add(piezaInDb);
+        }
+
+        reparacion.setPiezas(piezasUtilizadas); // Set the full list of piezas
+
         // Save the new reparacion
         Reparaciones createdReparacion = reparacionServicio.saveReparacion(reparacion);
-        if (createdReparacion != null) {
-            return new ResponseEntity<>(createdReparacion, HttpStatus.CREATED); // Successfully created
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Handle case where saving failed
-        }
+
+        return new ResponseEntity<>(createdReparacion, HttpStatus.CREATED);
     }
-
-
 
 
 }

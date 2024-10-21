@@ -10,6 +10,5 @@ public interface IPiezaServicio {
     public Piezas searchPiezaById(Integer idPieza);
     public Piezas savePieza(Piezas pieza);
     public Piezas updatePieza(Integer idPieza, Piezas updatedPieza);
-
     public void deletePieza(Piezas pieza);
 }

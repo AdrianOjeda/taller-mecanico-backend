@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,7 +25,7 @@ public class Piezas {
     Integer stock;
 
     @ManyToMany(mappedBy = "piezas", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Reparaciones> reparaciones;
+    private List<Reparaciones> reparaciones = new ArrayList<>();
 
     public Integer getIdPieza(){
         return idPieza;
