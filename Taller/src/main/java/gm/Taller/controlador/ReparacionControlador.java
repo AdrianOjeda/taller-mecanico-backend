@@ -1,9 +1,6 @@
 package gm.Taller.controlador;
 
-import gm.Taller.modelo.Clientes;
-import gm.Taller.modelo.Piezas;
-import gm.Taller.modelo.Reparaciones;
-import gm.Taller.modelo.Vehiculos;
+import gm.Taller.modelo.*;
 import gm.Taller.servicio.IReparacionServicio;
 import gm.Taller.servicio.IPiezaServicio;
 import gm.Taller.servicio.IVehiculoServicio;
@@ -94,6 +91,19 @@ public class ReparacionControlador {
         Reparaciones savedReparacion = reparacionServicio.updateReparacion(editingRepairId, existingReparacion);
 
         return ResponseEntity.ok(savedReparacion); // Return the updated reparacion
+    }
+
+    @DeleteMapping("/reparaciones/{idReparacion}")
+    public ResponseEntity<Reparaciones> deleteReparacion(@PathVariable Integer idReparacion){
+        try{
+            Reparaciones reparacion = reparacionServicio.searchReparacionById(idReparacion);
+            reparacionServicio.deleteReparacion(reparacion);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        }catch(Exception e){
+
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 error
+        }
     }
 
 
