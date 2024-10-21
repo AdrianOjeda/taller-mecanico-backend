@@ -11,7 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 //http://localhost:8081/taller-app/
@@ -26,14 +29,21 @@ public class PiezaControlador {
 
 
     @GetMapping("/piezas")
-    public List<Piezas> getPiezas(){
+    public ResponseEntity<List<Map<String, Object>>> getPiezas() {
+        List<Map<String, Object>> piezas = PiezaServicio.listPiezas();
 
-        var piezas = PiezaServicio.listPiezas();
-        piezas.forEach((pieza -> logger.info(pieza.toString())));
+        // Transform the response to match the frontend expectations
+        List<Map<String, Object>> transformedPiezas = piezas.stream().map(pieza -> {
+            Map<String, Object> transformedPieza = new HashMap<>();
+            transformedPieza.put("idPieza", pieza.get("id_pieza")); // Change to 'idPieza'
+            transformedPieza.put("piezaName", pieza.get("pieza_name")); // Change to 'piezaName'
+            transformedPieza.put("piezaDescripcion", pieza.get("pieza_descripcion")); // Change to 'piezaDescripcion'
+            transformedPieza.put("stock", pieza.get("stock")); // Keep stock as it is
+            return transformedPieza;
+        }).collect(Collectors.toList());
 
-        return piezas;
+        return ResponseEntity.ok(transformedPiezas); // Return 200 OK with transformed piezas list
     }
-
     @PostMapping("/piezas")
     public ResponseEntity<Piezas> createPieza(@RequestBody Piezas newPieza){
         try{

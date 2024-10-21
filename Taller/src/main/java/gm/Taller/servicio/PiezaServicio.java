@@ -2,21 +2,25 @@ package gm.Taller.servicio;
 
 import gm.Taller.modelo.Piezas;
 import gm.Taller.repositorio.PiezaRepositorio;
-import gm.Taller.repositorio.UserRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class PiezaServicio implements IPiezaServicio{
 
     @Autowired
     private PiezaRepositorio piezaRepositorio;
-    @Override
-    public List<Piezas> listPiezas() {
-        return piezaRepositorio.findAll();
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
+    @Override
+    public List<Map<String, Object>> listPiezas() {
+        String sql = "SELECT * FROM piezas";
+        return jdbcTemplate.queryForList(sql);
+    }
     @Override
     public Piezas searchPiezaById(Integer idPieza) {
         Piezas pieza = piezaRepositorio.findById(idPieza).orElse(null);
