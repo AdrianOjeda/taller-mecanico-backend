@@ -12,8 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 //http://localhost:8081/taller-app/
@@ -76,6 +79,24 @@ public class ReparacionControlador {
 
         return new ResponseEntity<>(createdReparacion, HttpStatus.CREATED);
     }
+
+    @PutMapping("/reparaciones/{editingRepairId}")
+    public ResponseEntity<Reparaciones> updateReparacion(@PathVariable Integer editingRepairId, @RequestBody Reparaciones updatedReparacion) {
+        // Fetch the existing reparacion
+        Reparaciones existingReparacion = reparacionServicio.searchReparacionById(editingRepairId);
+
+
+        existingReparacion.setFalla(updatedReparacion.getFalla());
+        if (updatedReparacion.getFechaEntrega() != null) {
+            existingReparacion.setFechaEntrega(updatedReparacion.getFechaEntrega());
+        }
+
+        Reparaciones savedReparacion = reparacionServicio.updateReparacion(editingRepairId, existingReparacion);
+
+        return ResponseEntity.ok(savedReparacion); // Return the updated reparacion
+    }
+
+
 
 
 }
