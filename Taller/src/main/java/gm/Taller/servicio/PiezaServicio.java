@@ -21,6 +21,19 @@ public class PiezaServicio implements IPiezaServicio{
         String sql = "SELECT * FROM piezas";
         return jdbcTemplate.queryForList(sql);
     }
+
+    @Override
+    public List<Map<String, Object>> mostUsedPiezas(){
+        String sql = "SELECT p.pieza_name, COUNT(rp.id_pieza) AS veces_usada " +
+                "FROM piezas p " +
+                "JOIN reparacion_piezas rp ON p.id_pieza = rp.id_pieza " +
+                "GROUP BY p.id_pieza, p.pieza_name, p.pieza_descripcion, p.stock " +
+                "ORDER BY veces_usada DESC "+
+                "LIMIT 8";
+        return jdbcTemplate.queryForList(sql);
+    }
+
+
     @Override
     public Piezas searchPiezaById(Integer idPieza) {
         Piezas pieza = piezaRepositorio.findById(idPieza).orElse(null);

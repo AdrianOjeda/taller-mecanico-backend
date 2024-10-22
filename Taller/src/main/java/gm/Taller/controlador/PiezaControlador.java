@@ -44,6 +44,20 @@ public class PiezaControlador {
 
         return ResponseEntity.ok(transformedPiezas); // Return 200 OK with transformed piezas list
     }
+
+    @GetMapping("/piezas/mostUsed")
+    public ResponseEntity<?> getMostUsedPiezas() {
+        try {
+            List<Map<String, Object>> mostUsedPiezas = PiezaServicio.mostUsedPiezas();
+            return ResponseEntity.ok(mostUsedPiezas);
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception in the server log
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error fetching most used piezas: " + e.getMessage());
+        }
+    }
+
+
     @PostMapping("/piezas")
     public ResponseEntity<Piezas> createPieza(@RequestBody Piezas newPieza){
         try{

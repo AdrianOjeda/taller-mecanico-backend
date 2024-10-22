@@ -47,6 +47,12 @@ public class ReparacionControlador {
 
         return new ResponseEntity<>(reparacionesList, HttpStatus.OK); // Return the list of reparaciones
     }
+
+    @GetMapping("/reparaciones/fechas")
+    public ResponseEntity<?> getFechas(){
+        List<Map<String, Object>> fetchFechas = reparacionServicio.fechas();
+        return ResponseEntity.ok(fetchFechas);
+    }
     @PostMapping("/reparaciones")
     public ResponseEntity<Reparaciones> createReparacion(@RequestBody Reparaciones reparacion) {
         // Log incoming reparacion

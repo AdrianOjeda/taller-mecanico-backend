@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 //http://localhost:8081/taller-app/
@@ -32,6 +33,12 @@ public class VehiculoControlador {
         return vehiculos;
     }
 
+    @GetMapping("/vehiculos/marcasRepaired")
+    public ResponseEntity<?> getMostRepairedMarcas(){
+        List<Map<String, Object>> mostRepairedMarcas = VehiculoServicio.marcasMostRepaired();
+        return ResponseEntity.ok(mostRepairedMarcas);
+    }
+
     @PostMapping("/vehiculos")
     public ResponseEntity<?> createVehiculo(@RequestBody Vehiculos newVehiculo) {
         Vehiculos savedVehiculo = VehiculoServicio.saveVehiculo(newVehiculo);
@@ -41,7 +48,6 @@ public class VehiculoControlador {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Vehiculo with matriculaVehiculo already exists.");
         }
 
-        // If the save operation was successful, return the saved entity
         return ResponseEntity.status(HttpStatus.CREATED).body(savedVehiculo);
     }
     @PutMapping("/vehiculos/{idVehiculo}")
