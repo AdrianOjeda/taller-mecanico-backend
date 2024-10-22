@@ -91,18 +91,13 @@ public class PiezaControlador {
     @DeleteMapping("/piezas/{piezaId}")
     public ResponseEntity<Void> deletePieza(@PathVariable Integer piezaId) {
         try {
-            Piezas pieza = PiezaServicio.searchPiezaById(piezaId);
-            if (pieza != null) {
-                PiezaServicio.deletePieza(pieza);
-                logger.info("Pieza deleted with ID: " + piezaId);
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Return 204 No Content if successfully deleted
-            } else {
-                logger.warn("Pieza not found with ID: " + piezaId);
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Return 404 if pieza not found
-            }
+
+            PiezaServicio.deletePieza(piezaId);
+
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Return 204 No Content
         } catch (Exception e) {
             logger.error("Error deleting pieza with ID: " + piezaId, e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 error if something goes wrong
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // Return 500 error
         }
     }
 }

@@ -60,8 +60,15 @@ public class PiezaServicio implements IPiezaServicio{
         return null;
     }
 
-    @Override
-    public void deletePieza(Piezas pieza) {
-        piezaRepositorio.delete(pieza);
+    public void deletePieza(Integer piezaId) {
+        // Raw SQL query to delete from reparacion_piezas and then from piezas
+        String sqlDeleteReparacionPiezas = "DELETE FROM reparacion_piezas WHERE id_pieza = ?";
+        String sqlDeletePieza = "DELETE FROM piezas WHERE id_pieza = ?";
+
+        // Delete the associated reparacion_piezas first
+        jdbcTemplate.update(sqlDeleteReparacionPiezas, piezaId);
+
+        // Then delete the pieza
+        jdbcTemplate.update(sqlDeletePieza, piezaId);
     }
 }
