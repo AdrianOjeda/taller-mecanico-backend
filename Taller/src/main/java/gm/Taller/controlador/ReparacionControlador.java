@@ -38,8 +38,7 @@ public class ReparacionControlador {
         for (Reparaciones reparacion : reparacionesList) {
             Vehiculos vehiculo = reparacion.getVehiculo();
             if (vehiculo != null) {
-                // Optionally, you could also initialize or fetch the Cliente entity here if needed.
-                // This assumes the Cliente entity is directly accessible from Vehiculos.
+
                 Clientes cliente = vehiculo.getCliente(); // Fetch associated client
                 reparacion.setVehiculo(vehiculo); // Make sure vehiculo is properly set (already should be)
             }
@@ -71,7 +70,7 @@ public class ReparacionControlador {
             if (piezaInDb == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Pieza not found
             }
-            piezaInDb.setStock(pieza.getStock()); // Set the stock used in this repair
+            piezaInDb.setStock(piezaInDb.getStock()-pieza.getStock()); // Set the stock used in this repair
             piezasUtilizadas.add(piezaInDb);
         }
 
