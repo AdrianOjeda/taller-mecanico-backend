@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @RestController
 //http://localhost:8081/taller-app/
 @RequestMapping("taller-app")
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:8081"})
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:8081", "http://localhost:3000"})
 
 public class PiezaControlador {
     private static final Logger logger =
