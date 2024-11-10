@@ -47,7 +47,7 @@ public class VehiculoControlador {
             // Respond with an appropriate error if the matriculaVehiculo exists
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Vehiculo with matriculaVehiculo already exists.");
         }
-
+        System.out.println("Vehiculo agregado con exito");
         return ResponseEntity.status(HttpStatus.CREATED).body(savedVehiculo);
     }
     @PutMapping("/vehiculos/{idVehiculo}")

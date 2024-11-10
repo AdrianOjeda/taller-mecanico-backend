@@ -55,11 +55,12 @@ public class ReparacionControlador {
     @PostMapping("/reparaciones")
     public ResponseEntity<Reparaciones> createReparacion(@RequestBody Reparaciones reparacion) {
         // Log incoming reparacion
-        System.out.println("Reparacion received: " + reparacion);
+        System.out.println("Reparacion recibido: " + reparacion);
 
         // Fetch the associated vehicle
         Vehiculos vehiculo = vehiculoServicio.searchVehiculoById(reparacion.getVehiculo().getIdVehiculo());
         if (vehiculo == null) {
+            System.out.println("Vehiculo no encontrado");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Vehicle not found
         }
 
@@ -68,6 +69,7 @@ public class ReparacionControlador {
         for (Piezas pieza : reparacion.getPiezas()) {
             Piezas piezaInDb = piezaServicio.searchPiezaById(pieza.getIdPieza());
             if (piezaInDb == null) {
+                System.out.println("Pieza no encontrada");
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Pieza not found
             }
             piezaInDb.setStock(piezaInDb.getStock()-pieza.getStock()); // Set the stock used in this repair

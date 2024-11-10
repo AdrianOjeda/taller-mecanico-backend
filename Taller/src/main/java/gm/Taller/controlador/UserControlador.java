@@ -40,6 +40,7 @@ public class UserControlador {
         logger.info("Received password: " + userInfo.getPassword());
         logger.info("Hola "+user);
         if (user != null) {
+            System.out.println("Ingreso exitoso");
             return ResponseEntity.ok(user); // Successful login
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales invalidas");

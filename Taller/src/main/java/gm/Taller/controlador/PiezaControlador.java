@@ -93,7 +93,7 @@ public class PiezaControlador {
         try {
 
             PiezaServicio.deletePieza(piezaId);
-
+            System.out.println("Pieza borrada con exito");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Return 204 No Content
         } catch (Exception e) {
             logger.error("Error deleting pieza with ID: " + piezaId, e);
