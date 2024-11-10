@@ -2,35 +2,47 @@ package gm.Taller.servicio;
 
 import gm.Taller.modelo.Reparaciones;
 import gm.Taller.modelo.Vehiculos;
-import gm.Taller.repositorio.ReparacionRepositorio; // Import your repository
+import gm.Taller.repositorio.ReparacionRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ReparacionServicio implements IReparacionServicio {
 
-    private final ReparacionRepositorio reparacionRepositorio; // Assuming you have a repository
-    private final VehiculoServicio vehiculoServicio; // Injecting VehiculoServicio to fetch vehicles
+    private final ReparacionRepositorio reparacionRepositorio;
+    private final VehiculoServicio vehiculoServicio;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     public ReparacionServicio(ReparacionRepositorio reparacionRepositorio, VehiculoServicio vehiculoServicio) {
         this.reparacionRepositorio = reparacionRepositorio;
         this.vehiculoServicio = vehiculoServicio;
     }
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Override
     public List<Reparaciones> listReparaciones() {
         return reparacionRepositorio.findAll();
     }
 
+
+
     @Override
-    public List<Map<String, Object>> fechas(){
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> fechas() {
         String sql = "SELECT " +
                 "    CASE " +
                 "        WHEN (TO_DATE(r.fecha_entrega, 'YYYY-MM-DD') - TO_DATE(r.fecha_inicio, 'YYYY-MM-DD')) BETWEEN 0 AND 7 THEN '0-7 dias' " +
@@ -42,18 +54,21 @@ public class ReparacionServicio implements IReparacionServicio {
                 "FROM reparaciones r " +
                 "WHERE TO_DATE(r.fecha_inicio, 'YYYY-MM-DD') IS NOT NULL  " +
                 "  AND TO_DATE(r.fecha_entrega, 'YYYY-MM-DD') IS NOT NULL " +
-                "GROUP BY repair_duration "+
+                "GROUP BY repair_duration " +
                 "LIMIT 10 ";
+
         return jdbcTemplate.queryForList(sql);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Reparaciones searchReparacionById(Integer idReparacion) {
         return reparacionRepositorio.findById(idReparacion)
                 .orElseThrow(() -> new RuntimeException("Reparacion not found with ID: " + idReparacion));
     }
 
     @Override
+    @Transactional
     public Reparaciones saveReparacion(Reparaciones reparacion) {
         // Validate if the associated vehiculo exists
         if (vehiculoServicio.searchVehiculoById(reparacion.getVehiculo().getIdVehiculo()) == null) {
@@ -63,6 +78,7 @@ public class ReparacionServicio implements IReparacionServicio {
     }
 
     @Override
+    @Transactional
     public Reparaciones updateReparacion(Integer idReparacion, Reparaciones updatedReparacion) {
         // Fetch the existing reparacion
         Reparaciones existingReparacion = reparacionRepositorio.findById(idReparacion)
@@ -86,6 +102,7 @@ public class ReparacionServicio implements IReparacionServicio {
     }
 
     @Override
+    @Transactional
     public void deleteReparacion(Reparaciones reparacion) {
         reparacionRepositorio.delete(reparacion); // Delete the reparacion
     }
