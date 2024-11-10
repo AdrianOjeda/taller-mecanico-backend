@@ -45,6 +45,7 @@ public class ClienteControlador {
 
         // Save the new client
         Clientes savedCliente = clienteServicio.saveCliente(newCliente);
+        System.out.println("Cliente agregado con exito");
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCliente); // 201 Created
     }
 
