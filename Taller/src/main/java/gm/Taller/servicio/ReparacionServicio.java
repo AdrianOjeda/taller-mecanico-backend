@@ -34,6 +34,7 @@ public class ReparacionServicio implements IReparacionServicio {
     }
 
     @Override
+    @Transactional
     public List<Reparaciones> listReparaciones() {
         return reparacionRepositorio.findAll();
     }
@@ -41,7 +42,7 @@ public class ReparacionServicio implements IReparacionServicio {
 
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public List<Map<String, Object>> fechas() {
         String sql = "SELECT " +
                 "    CASE " +
@@ -61,7 +62,7 @@ public class ReparacionServicio implements IReparacionServicio {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public Reparaciones searchReparacionById(Integer idReparacion) {
         return reparacionRepositorio.findById(idReparacion)
                 .orElseThrow(() -> new RuntimeException("Reparacion not found with ID: " + idReparacion));
