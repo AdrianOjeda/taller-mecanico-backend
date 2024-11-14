@@ -14,7 +14,7 @@
 	<description>sistema para un taller mecanico</description>
 
 	<properties>
-		<java.version>17</java.version>
+		<java.version>22</java.version> <!-- updated for Java 22 -->
 	</properties>
 
 	<dependencies>
@@ -65,10 +65,9 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
-					<mainClass>com.example.Taller.TallerApplication</mainClass>
+					<mainClass>gm.Taller.TallerApplication</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 </project>
-
