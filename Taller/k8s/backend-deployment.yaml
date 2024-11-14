@@ -14,9 +14,9 @@ spec:
     spec:
       containers:
         - name: taller-backend
-          image: adrianojeda/taller-backend:v10
+          image: adrianojeda/taller-backend:v11
           ports:
-            - containerPort: 8080  # Update to match the actual backend port
+            - containerPort: 8080  # Backend container port
 ---
 apiVersion: v1
 kind: Service
@@ -28,6 +28,6 @@ spec:
   ports:
     - protocol: TCP
       port: 8080       # Service port
-      targetPort: 8080 # Container port the backend listens on
-      nodePort: 30080  # The external port to access the backend
-  type: NodePort  # Expose the service using NodePort
+      targetPort: 8080 # Backend container port
+      nodePort: 30080  # Set static external port for backend
+  type: LoadBalancer
