@@ -6,17 +6,10 @@ Los contenedores de los microservicios
 ![Ejemplo de imagen](scheenshots/docker.jpg)
    
 Los pods de Kubernetes 
-  
+![Ejemplo de imagen](scheenshots/kubernetesPods.jpg)
 Conexion entre pods, peticiones http en consola 
-  
+![Ejemplo de imagen](scheenshots/podconnection.jpg)
  
- 
-
- 
- 
- 
-  
-
 ### Modificaciones realizadas
 - Se hicieron cambios en los puertos 
 - Se realizaron solicitudes constantes desde el servicio del backend hacia el servicio del front para asergurar que ambos servicios se encuentren conectados
