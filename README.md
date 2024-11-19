@@ -13,6 +13,7 @@ Ademas tambien podemos con ayuda de isito ver graficamente que las solicitudes e
 
 
 ### Uso de Cheeky Monkey
+##### VIDEO  https://www.youtube.com/watch?v=CqK_4n6odEs
 [![Ver video](https://img.youtube.com/vi/CqK_4n6odEs/maxresdefault.jpg)](https://www.youtube.com/watch?v=CqK_4n6odEs)
 Como podemos ver en el video tenemos 3 ventanas abiertas:
 - Locust de Fondo corriendo en el puerto 8089 mandando solicitudes al puerto 80 que es donde se encuentra nuestro servicio Frontend
