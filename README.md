@@ -3,6 +3,7 @@
 ### Lo que ya teniamos
 
 Los contenedores de los microservicios
+![Ejemplo de imagen](scheenshots/docker.jpg)
    
 Los pods de Kubernetes 
   
@@ -10,32 +11,10 @@ Conexion entre pods, peticiones http en consola
   
  
  
- 
- 
- 
- 
-El frontend, aun sin terminar la configuración para acceder al backend fuera del cluster de minikube 
-  
- 
- 
-Los logs del backend en kubernetes 
-  
 
-Los pods de Kubernetes 
-  
-Conexion entre pods, peticiones http en consola 
-  
  
  
  
- 
- 
- 
-El frontend, aun sin terminar la configuración para acceder al backend fuera del cluster de minikube 
-  
- 
- 
-Los logs del backend en kubernetes 
   
 
 ### Modificaciones realizadas
