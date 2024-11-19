@@ -1,4 +1,43 @@
 # Reporte de Proyecto V2
+
+### Lo que ya teniamos
+
+Los contenedores de los microservicios
+   
+Los pods de Kubernetes 
+  
+Conexion entre pods, peticiones http en consola 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+El frontend, aun sin terminar la configuración para acceder al backend fuera del cluster de minikube 
+  
+ 
+ 
+Los logs del backend en kubernetes 
+  
+
+Los pods de Kubernetes 
+  
+Conexion entre pods, peticiones http en consola 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+El frontend, aun sin terminar la configuración para acceder al backend fuera del cluster de minikube 
+  
+ 
+ 
+Los logs del backend en kubernetes 
+  
+
 ### Modificaciones realizadas
 - Se hicieron cambios en los puertos 
 - Se realizaron solicitudes constantes desde el servicio del backend hacia el servicio del front para asergurar que ambos servicios se encuentren conectados
